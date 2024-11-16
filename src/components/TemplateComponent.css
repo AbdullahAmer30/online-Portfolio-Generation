@@ -1,0 +1,18 @@
+.card-header img {
+    border-radius: 50%;
+    border: 3px solid white;
+  }
+  
+  .card-body a {
+    text-decoration: none;
+  }
+  
+  .card-body a:hover {
+    text-decoration: underline;
+  }
+  
+  button {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
