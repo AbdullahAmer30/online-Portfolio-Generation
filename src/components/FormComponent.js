@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FormComponent = ({ onSubmit }) => {
+const FormComponent = ({ sub }) => {
   const [formValues, setFormValues] = useState({
     name: '',
     designation: '',
@@ -14,6 +14,7 @@ const FormComponent = ({ onSubmit }) => {
       twitter: '',
       linkedin: '',
       pinterest: '',
+      instagram: '', // Added Instagram field
     },
   });
 
@@ -32,7 +33,7 @@ const FormComponent = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formValues);
+    sub(formValues);
   };
 
   return (
@@ -48,6 +49,7 @@ const FormComponent = ({ onSubmit }) => {
       <input name="socialMedia.twitter" placeholder="Twitter Link" onChange={handleChange} />
       <input name="socialMedia.linkedin" placeholder="LinkedIn Link" onChange={handleChange} />
       <input name="socialMedia.pinterest" placeholder="Pinterest Link" onChange={handleChange} />
+      <input name="socialMedia.instagram" placeholder="Instagram Link" onChange={handleChange} />
       <button type="submit">Create</button>
     </form>
   );
