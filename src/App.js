@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import TemplateComponent from './templateComponent';
 import Profile from './components/Profile';
-import Profilee from './Profilee';
-
+// import Profilee from './Profilee';
+ 
 function App() {
   return (
     <Router>
@@ -14,5 +14,5 @@ function App() {
     </Router>
   );
 }
-
+ 
 export default App;

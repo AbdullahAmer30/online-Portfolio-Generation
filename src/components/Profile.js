@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
+// import './Profile.css'
+ 
 const Profile = () => {
   const location = useLocation();
   const [modalVisible, setModalVisible] = useState(false);
   const [vCardModalVisible, setVCardModalVisible] = useState(false);
   const [email, setEmail] = useState('');  // State for the email input
   const [emailError, setEmailError] = useState('');  // State for email validation error
-
+ 
   const getQueryParams = () => {
     const params = new URLSearchParams(location.search);
     return {
@@ -28,51 +29,77 @@ const Profile = () => {
       profileImage: params.get('profileImage'),  // Adding profile image to the data
     };
   };
-
+ 
   const data = getQueryParams();
   const profileUrl = `${window.location.origin}/profile?${new URLSearchParams(location.search).toString()}`;
-
+ 
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
   const openVCardModal = () => setVCardModalVisible(true);
   const closeVCardModal = () => setVCardModalVisible(false);
-
+ 
   const copyLink = () => {
     navigator.clipboard.writeText(profileUrl);
     alert('Link copied to clipboard!');
   };
-
+ 
   // Function to generate vCard data
-  const generateVCard = () => {
+//   const generateVCard = () => {
+//     const vCardData = `
+ 
+// FN:${data.name}
+// TEL:${data.phone}
+// EMAIL:${data.email}
+// ORG:${data.company}
+// ADR:${data.address}
+// URL:${data.website}
+ 
+//     `;
+//     return vCardData;
+//   };
+ 
+const generateVCard = () => {
     const vCardData = `
-BEGIN:VCARD
-VERSION:3.0
-FN:${data.name}
-TEL:${data.phone}
-EMAIL:${data.email}
-ORG:${data.company}
-ADR:${data.address}
-URL:${data.website}
-END:VCARD
+  BEGIN:VCARD
+  VERSION:3.0
+  FN:${data.name}
+  TITLE:${data.designation}
+  EMAIL:${data.email}
+  TEL:${data.phone}
+  ADR;TYPE=HOME:;;${data.address};;;;
+  URL:${data.website}
+  PHOTO;VALUE=URI:${data.profileImage || 'https://via.placeholder.com/100'}
+  END:VCARD
     `;
-    return vCardData;
+    return vCardData.trim();
   };
-
+ 
+ 
   // Function to download vCard file
+//   const downloadVCard = () => {
+//     const vCardData = generateVCard();
+//     const blob = new Blob([vCardData], { type: 'text/vcard' });
+//     const link = document.createElement('a');
+//     link.href = URL.createObjectURL(blob);
+//     link.download = `${data.name}.vcf`;
+//     link.click();
+//   };
+ 
+ 
   const downloadVCard = () => {
     const vCardData = generateVCard();
     const blob = new Blob([vCardData], { type: 'text/vcard' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `${data.name}.vcf`;
+    link.download = `${data.name}.vcf`; // Ensure it ends with .vcf
     link.click();
   };
-
+ 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setEmailError(''); // Clear any previous error on new input
   };
-
+ 
   // Function to send vCard by email
   const sendVCardByEmail = () => {
     // Validate email
@@ -80,9 +107,9 @@ END:VCARD
       setEmailError('Please enter a valid email address.');
       return;
     }
-
+ 
     setEmailError('');
-
+ 
     const vCardData = generateVCard();
     const mailtoLink = `mailto:${email}?subject=Contact vCard&body=${encodeURIComponent(vCardData)}`;
     window.location.href = mailtoLink; // Opens the email client with the vCard data in the body
@@ -92,7 +119,7 @@ END:VCARD
     alert('Add to Contacts functionality is not implemented in this demo.');
     downloadVCard();
   };
-
+ 
   return (
     <div style={{ backgroundColor: '#f8f9fa', padding: '20px' }}>
       <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
@@ -134,17 +161,23 @@ END:VCARD
               <li className="d-flex align-items-center mb-3">
                 <i className="bi bi-phone me-3 fs-5"></i>
                 <div>
-                  <div>{data.phone}</div>
-                  <small className="text-muted">Mobile</small>
-                </div>
+  <a href={`tel:${data.phone}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <div>{data.phone}</div>
+  </a>
+  <small className="text-muted">Mobile</small>
+</div>
+ 
               </li>
               <hr />
               <li className="d-flex align-items-center mb-3">
                 <i className="bi bi-envelope me-3 fs-5"></i>
                 <div>
-                  <div>{data.email}</div>
-                  <small className="text-muted">Email</small>
-                </div>
+  <a href={`mailto:${data.email}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <div>{data.email}</div>
+  </a>
+  <small className="text-muted">Email</small>
+</div>
+ 
               </li>
               <hr />
               <li className="d-flex align-items-center mb-3">
@@ -158,11 +191,17 @@ END:VCARD
               <li className="d-flex align-items-start mb-3">
                 <i className="bi bi-geo-alt me-3 fs-5"></i>
                 <div>
-                  <div>{data.address}</div>
-                  <a href="#" className="text-primary d-block mt-1">
-                    Show on Map
-                  </a>
-                </div>
+  <div>{data.address}</div>
+  <a
+    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.address)}`}
+    className="text-primary d-block mt-1"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Show on Map
+  </a>
+</div>
+ 
               </li>
               <hr />
               <li className="d-flex align-items-center">
@@ -215,8 +254,8 @@ END:VCARD
                 </a>
               )}
             </div>
-            <div className="text-center">
-              <button className="btn btn-danger w-100 mb-3" style={{ fontWeight: 'bold' }} onClick={openVCardModal}>
+            <div className="text-center floating-buttons">
+              <button className="btn btn-danger w-100 mb-3 vcard-btn" style={{ fontWeight: 'bold' }} onClick={openVCardModal}>
                 <i className="bi bi-download me-2"></i> Download vCard
               </button>
               <button
@@ -224,13 +263,22 @@ END:VCARD
                 style={{ fontWeight: 'bold' }}
                 onClick={openModal}
               >
-                <i className="bi bi-share me-2"></i> Share This Page
+                <i className="bi bi-share me-2 share-btn"></i> Share This Page
               </button>
             </div>
+            {/* <div className="floating-buttons">
+  <button className="vcard-btn" onClick={openVCardModal}>
+    <i className="bi bi-download"></i>
+  </button>
+  <button className="share-btn" onClick={openModal}>
+    <i className="bi bi-share"></i>
+  </button>
+</div> */}
+ 
           </div>
         </div>
       </div>
-
+ 
       {/* Share Modal */}
       {modalVisible && (
         <div className="modal show" tabIndex="-1" style={{ display: 'block' }} onClick={closeModal}>
@@ -283,10 +331,10 @@ END:VCARD
           </div>
         </div>
       )}
-
+ 
       {/* vCard Modal */}
       {vCardModalVisible && (
-        
+ 
         <div className="modal show" tabIndex="-1" style={{ display: 'block' }} aria-labelledby="vCardModalLabel" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
@@ -315,7 +363,7 @@ END:VCARD
                     Send vCard
                   </button>
                 </div>
-               
+ 
               </div>
             </div>
           </div>
@@ -324,5 +372,5 @@ END:VCARD
     </div>
   );
 };
-
+ 
 export default Profile;
