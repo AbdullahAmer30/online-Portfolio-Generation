@@ -59,20 +59,21 @@ const Profile = () => {
 //   };
  
 const generateVCard = () => {
-    const vCardData = `
-  BEGIN:VCARD
-  VERSION:3.0
-  FN:${data.name}
-  TITLE:${data.designation}
-  EMAIL:${data.email}
-  TEL:${data.phone}
-  ADR;TYPE=HOME:;;${data.address};;;;
-  URL:${data.website}
-  PHOTO;VALUE=URI:${data.profileImage || 'https://via.placeholder.com/100'}
-  END:VCARD
-    `;
-    return vCardData.trim();
-  };
+  const vCardData = `
+BEGIN:VCARD
+VERSION:3.0
+FN:${data.name || ''}
+TITLE:${data.designation || ''}
+EMAIL:${data.email || ''}
+TEL:${data.phone || ''}
+ADR;TYPE=HOME:;;${data.address || ''};;;
+URL:${data.website || ''}
+PHOTO;VALUE=URI:${data.profileImage || ''}
+END:VCARD
+  `;
+  return vCardData.trim();
+};
+
  
  
   // Function to download vCard file
