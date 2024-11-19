@@ -454,73 +454,172 @@
 // export default Profile;
 
 
+// import React from "react";
+// import { useLocation } from "react-router-dom";
+
+// const Profile = () => {
+//   const location = useLocation();
+//   // const queryParams = new URLSearchParams(location.search);
+//   const params = new URLSearchParams(location.search);
+//   const data = {
+//     // name: queryParams.get("name"),
+//     // phone: queryParams.get("phone"),
+//     // email: queryParams.get("email"),
+//     // organization: queryParams.get("organization"),
+//     photo: params.get("photo"), // Base64 photo string
+
+//     name: params.get('name'),
+//   designation: params.get('designation'),
+//   phone: params.get('phone'),
+//   email: params.get('email'),
+//   organization: params.get('organization'),
+//   address: params.get('address'),
+//   website: params.get('website'),
+//   socialMedia: {
+//     facebook: params.get('facebook'),
+//     twitter: params.get('twitter'),
+//     linkedin: params.get('linkedin'),
+//     pinterest: params.get('pinterest'),
+//     instagram: params.get('instagram'),
+//   },
+//   };
+
+// //   const generateVCard = () => {
+// //     const { name, phone, email, organization, photo } = data;
+
+// //     const vCardData = `
+// // BEGIN:VCARD
+// // VERSION:3.0
+// // FN:${name}
+// // ORG:${organization}
+// // TEL:${phone}
+// // EMAIL:${email}
+// // ${photo ? `PHOTO;ENCODING=BASE64;TYPE=JPEG:${photo}` : ""}
+// // END:VCARD
+// //     `.trim();
+
+// //     const blob = new Blob([vCardData], { type: "text/vcard" });
+// //     const url = URL.createObjectURL(blob);
+// //     const a = document.createElement("a");
+// //     a.href = url;
+// //     a.download = `${name}.vcf`;
+// //     a.click();
+// //     URL.revokeObjectURL(url);
+// //   };
+
+
+// const generateVCard = () => {
+//   const {
+//     name,
+//     phone,
+//     email,
+//     organization,
+//     address,
+//     website,
+//     designation,
+//     photo,
+//   } = data;
+
+//   const vCardData = `
+// BEGIN:VCARD
+// VERSION:3.0
+// FN:${name}
+// ORG:${organization}
+// TITLE:${designation}
+// TEL:${phone}
+// EMAIL:${email}
+// ADR:${address}
+// URL:${website}
+// ${photo ? `PHOTO;ENCODING=BASE64;TYPE=JPEG:${photo}` : ""}
+// END:VCARD
+//   `.trim();
+
+//   const blob = new Blob([vCardData], { type: "text/vcard" });
+//   const url = URL.createObjectURL(blob);
+//   const a = document.createElement("a");
+//   a.href = url;
+//   a.download = `${name}.vcf`;
+//   a.click();
+//   URL.revokeObjectURL(url);
+// };
+
+//   return (
+//     <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
+//       <h2>Contact Details</h2>
+//       <p><strong>Name:</strong> {data.name}</p>
+//       <p><strong>Phone:</strong> {data.phone}</p>
+//       <p><strong>Email:</strong> {data.email}</p>
+//       <p><strong>Organization:</strong> {data.organization}</p>
+//       {data.photo && (
+//         <div>
+//           <p><strong>Profile Image:</strong></p>
+//           <img
+//             src={`data:image/jpeg;base64,${data.photo}`}
+//             alt="Profile"
+//             style={{ width: "100px", height: "100px", objectFit: "cover" }}
+//           />
+//         </div>
+//       )}
+//       <button
+//         onClick={generateVCard}
+//         style={{
+//           marginTop: "10px",
+//           padding: "10px 15px",
+//           backgroundColor: "#007bff",
+//           color: "#fff",
+//           border: "none",
+//           cursor: "pointer",
+//         }}
+//       >
+//         Download VCard
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default Profile;
+
+
+
 import React from "react";
 import { useLocation } from "react-router-dom";
 
 const Profile = () => {
   const location = useLocation();
-  // const queryParams = new URLSearchParams(location.search);
-  const params = new URLSearchParams(location.search);
-  const data = {
-    // name: queryParams.get("name"),
-    // phone: queryParams.get("phone"),
-    // email: queryParams.get("email"),
-    // organization: queryParams.get("organization"),
-    photo: params.get("photo"), // Base64 photo string
+  const queryParams = new URLSearchParams(location.search);
 
-    name: params.get('name'),
-  designation: params.get('designation'),
-  phone: params.get('phone'),
-  email: params.get('email'),
-  organization: params.get('organization'),
-  address: params.get('address'),
-  website: params.get('website'),
-  socialMedia: {
-    facebook: params.get('facebook'),
-    twitter: params.get('twitter'),
-    linkedin: params.get('linkedin'),
-    pinterest: params.get('pinterest'),
-    instagram: params.get('instagram'),
-  },
+  const data = {
+    name: queryParams.get("name"),
+    phone: queryParams.get("phone"),
+    email: queryParams.get("email"),
+    organization: queryParams.get("organization"),
+    address: queryParams.get("address"),
+    website: queryParams.get("website"),
+    designation: queryParams.get("designation"),
+    socialMedia: {
+      facebook: queryParams.get("facebook"),
+      twitter: queryParams.get("twitter"),
+      linkedin: queryParams.get("linkedin"),
+      pinterest: queryParams.get("pinterest"),
+      instagram: queryParams.get("instagram"),
+    },
+    photo: queryParams.get("photo"),
   };
 
-//   const generateVCard = () => {
-//     const { name, phone, email, organization, photo } = data;
+  const generateVCard = () => {
+    const {
+      name,
+      phone,
+      email,
+      organization,
+      address,
+      website,
+      designation,
+      photo,
+      socialMedia,
+    } = data;
 
-//     const vCardData = `
-// BEGIN:VCARD
-// VERSION:3.0
-// FN:${name}
-// ORG:${organization}
-// TEL:${phone}
-// EMAIL:${email}
-// ${photo ? `PHOTO;ENCODING=BASE64;TYPE=JPEG:${photo}` : ""}
-// END:VCARD
-//     `.trim();
-
-//     const blob = new Blob([vCardData], { type: "text/vcard" });
-//     const url = URL.createObjectURL(blob);
-//     const a = document.createElement("a");
-//     a.href = url;
-//     a.download = `${name}.vcf`;
-//     a.click();
-//     URL.revokeObjectURL(url);
-//   };
-
-
-const generateVCard = () => {
-  const {
-    name,
-    phone,
-    email,
-    organization,
-    address,
-    website,
-    designation,
-    photo,
-  } = data;
-
-  const vCardData = `
+    const vCardData = `
 BEGIN:VCARD
 VERSION:3.0
 FN:${name}
@@ -530,18 +629,23 @@ TEL:${phone}
 EMAIL:${email}
 ADR:${address}
 URL:${website}
+X-FACEBOOK:${socialMedia.facebook}
+X-TWITTER:${socialMedia.twitter}
+X-LINKEDIN:${socialMedia.linkedin}
+X-PINTEREST:${socialMedia.pinterest}
+X-INSTAGRAM:${socialMedia.instagram}
 ${photo ? `PHOTO;ENCODING=BASE64;TYPE=JPEG:${photo}` : ""}
 END:VCARD
-  `.trim();
+    `.trim();
 
-  const blob = new Blob([vCardData], { type: "text/vcard" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `${name}.vcf`;
-  a.click();
-  URL.revokeObjectURL(url);
-};
+    const blob = new Blob([vCardData], { type: "text/vcard" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.vcf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
@@ -550,6 +654,19 @@ END:VCARD
       <p><strong>Phone:</strong> {data.phone}</p>
       <p><strong>Email:</strong> {data.email}</p>
       <p><strong>Organization:</strong> {data.organization}</p>
+      <p><strong>Designation:</strong> {data.designation}</p>
+      <p><strong>Address:</strong> {data.address}</p>
+      <p><strong>Website:</strong> <a href={data.website}>{data.website}</a></p>
+      <p><strong>Social Media:</strong></p>
+      <ul>
+        {Object.entries(data.socialMedia).map(([key, value]) => (
+          value && (
+            <li key={key}>
+              <strong>{key}:</strong> <a href={`https://${value}`}>{value}</a>
+            </li>
+          )
+        ))}
+      </ul>
       {data.photo && (
         <div>
           <p><strong>Profile Image:</strong></p>
@@ -578,3 +695,4 @@ END:VCARD
 };
 
 export default Profile;
+

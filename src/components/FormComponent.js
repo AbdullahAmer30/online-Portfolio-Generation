@@ -180,20 +180,35 @@ const FormComponent = () => {
     phone: "",
     email: "",
     organization: "",
+    address: "",
+    website: "",
+    designation: "",
     photo: "",
-    address:"",
-    designation:"",
-    website:""
+    socialMedia: {
+      facebook: "",
+      twitter: "",
+      linkedin: "",
+      pinterest: "",
+      instagram: "",
+    },
   });
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name.startsWith("socialMedia.")) {
+      const key = name.split(".")[1];
+      setFormData((prevData) => ({
+        ...prevData,
+        socialMedia: { ...prevData.socialMedia, [key]: value },
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -212,7 +227,10 @@ const FormComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const queryParams = new URLSearchParams(formData).toString();
+    const queryParams = new URLSearchParams({
+      ...formData,
+      ...formData.socialMedia,
+    }).toString();
     navigate(`/display?${queryParams}`);
   };
 
@@ -261,18 +279,6 @@ const FormComponent = () => {
             value={formData.organization}
             onChange={handleChange}
             placeholder="Organization"
-            required
-          />
-        </div>
-        <div>
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="address"
-            required
           />
         </div>
         <div>
@@ -282,8 +288,77 @@ const FormComponent = () => {
             name="designation"
             value={formData.designation}
             onChange={handleChange}
-            placeholder="designation"
-            required
+            placeholder="Designation"
+          />
+        </div>
+        <div>
+          <label>Address:</label>
+          <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder="Address"
+          />
+        </div>
+        <div>
+          <label>Website:</label>
+          <input
+            type="url"
+            name="website"
+            value={formData.website}
+            onChange={handleChange}
+            placeholder="Website URL"
+          />
+        </div>
+        <div>
+          <label>Facebook:</label>
+          <input
+            type="text"
+            name="socialMedia.facebook"
+            value={formData.socialMedia.facebook}
+            onChange={handleChange}
+            placeholder="Facebook Profile"
+          />
+        </div>
+        <div>
+          <label>Twitter:</label>
+          <input
+            type="text"
+            name="socialMedia.twitter"
+            value={formData.socialMedia.twitter}
+            onChange={handleChange}
+            placeholder="Twitter Profile"
+          />
+        </div>
+        <div>
+          <label>LinkedIn:</label>
+          <input
+            type="text"
+            name="socialMedia.linkedin"
+            value={formData.socialMedia.linkedin}
+            onChange={handleChange}
+            placeholder="LinkedIn Profile"
+          />
+        </div>
+        <div>
+          <label>Pinterest:</label>
+          <input
+            type="text"
+            name="socialMedia.pinterest"
+            value={formData.socialMedia.pinterest}
+            onChange={handleChange}
+            placeholder="Pinterest Profile"
+          />
+        </div>
+        <div>
+          <label>Instagram:</label>
+          <input
+            type="text"
+            name="socialMedia.instagram"
+            value={formData.socialMedia.instagram}
+            onChange={handleChange}
+            placeholder="Instagram Profile"
           />
         </div>
         <div>
